@@ -1,0 +1,100 @@
+Phishing Email Analysis 
+
+1) Sample phishing email (fabricated for training)
+
+From: "Bank of America" <support@bankofamerica-security.com>
+To: you@example.com
+Subject: Urgent: Account Verification Required Immediately!
+Date: Wed, 22 Oct 2025 10:14:22 +0530
+Reply-To: secure-team@bofa-support.help
+Return-Path: bounce@mailer.russian-mail.net
+
+Received: from unknown (HELO smtp23.rusmail[198.51.100.45]) by mail.gateway.example with SMTP; Wed, 22 Oct 2025 04:12:10 +0000
+Received: from user-pc (198.51.100.23) by smtp23.rusmail with ESMTP; Wed, 22 Oct 2025 04:11:58 +0000
+
+Body (HTML):
+<html>
+  <body>
+    <p>Dear Customer,</p>
+    <p>We detected <b>unusual activity</b> on your account. For your protection your account has been temporarily limitted.</p>
+    <p>Please <a href="http://198.51.100.23/bofa-login">https://bankofamerica.com/login</a> to verify your account within 24 hours or your account will be permanently suspended.</p>
+    <p>See attached secure_doc.exe for further details.</p>
+    <p>Sincerely,<br>Bank of America Security Team</p>
+  </body>
+</html>
+
+2) Step-by-step processing and findings
+
+1) Obtain a sample phishing email
+- A fabricated sample (above) is used for safe training and analysis.
+- Note: Never open attachments or click links from real phishing emails.
+
+2) Examine sender's email address for spoofing
+Checks:
+- Compare display name and actual From address.
+- Verify domain ownership (does the domain belong to the real organization?).
+
+Findings (sample):
+- Display name: Bank of America
+- From address: support@bankofamerica-security.com (look-alike domain)
+- Reply-To: secure-team@bofa-support.help (different domain)
+- Verdict: Likely spoofed or look-alike domain.
+
+3) Check email headers for discrepancies (use an analyzer)
+Checks:
+- Received chain to determine origin IPs and relays.
+- Return-Path, DKIM, SPF, DMARC authentication results.
+
+Findings (sample):
+- Received chain indicates origin from smtp23.rusmail and IPs 198.51.100.45 / 198.51.100.23.
+- Return-Path from mailer.russian-mail.net — unrelated.
+- Authentication headers were not included in the sample; in practice, look for Authentication-Results: lines showing SPF/DKIM/DMARC pass/fail.
+
+How to check (practical):
+- Copy full headers and paste into an online header analyzer (search for "email header analyzer").
+- Look for geographic or infrastructure mismatches (e.g., origin IP in Russia for a US bank).
+
+4) Identify suspicious links or attachments
+Checks:
+- Dangerous attachment types: .exe, .scr, .bat, .zip (with executables inside).
+- Links where displayed text differs from actual href.
+- Links pointing to IP addresses or shorteners.
+
+Findings (sample):
+- Attachment: secure_doc.exe — malicious risk; banks do not send .exe.
+- Visible link text: https://bankofamerica.com/login but actual href: http://198.51.100.23/bofa-login (IP + http) — link spoofing.
+
+5) Look for urgent or threatening language
+Checks:
+- Time pressure phrases: "immediately", "within 24 hours", "suspend", "final warning".
+
+Findings (sample):
+- "verify your account within 24 hours or your account will be permanently suspended." — clear urgency.
+
+6) Note any mismatched URLs (hover to see real link)
+Technique:
+- Hover over links in desktop mail clients; long-press on mobile to preview.
+- Use URL scanners (VirusTotal, URLVoid) or open in a sandbox for analysis.
+
+Findings (sample):
+- Visible domain bankofamerica.com vs actual 198.51.100.23 — mismatch; also uses http not https.
+
+7) Verify presence of spelling or grammar errors
+Checks:
+- Typos, grammar mistakes, poor punctuation or capitalization.
+
+Findings (sample):
+- "limitted" -> misspelling of "limited".
+- Awkward phrasing — indicative of phishing.
+
+8) Summary of phishing traits found
+- Look-alike sender domain (bankofamerica-security.com) vs legitimate (bankofamerica.com).
+- Reply-To uses a different suspicious domain (bofa-support.help).
+- Received path and return-path from unrelated hosts/IPs.
+- Suspicious executable attachment (secure_doc.exe).
+- Link anchor text spoofing with href pointing to an IP (http://198.51.100.23/...) over plaintext HTTP.
+- Urgent/threatening language to force quick action.
+- Spelling/grammar mistakes.
+- Overall verdict: High-confidence phishing attempt.
+
+
