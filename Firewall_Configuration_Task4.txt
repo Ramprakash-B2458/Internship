@@ -1,0 +1,82 @@
+====================================================
+        FIREWALL CONFIGURATION AND TEST REPORT
+====================================================
+
+Date          : 27-Oct-2025
+Prepared By   : Ram Prakash B
+System Tested : Windows / Linux (UFW)
+
+----------------------------------------------------
+1. OBJECTIVE
+----------------------------------------------------
+To configure, test, and analyze how firewall rules control
+inbound and outbound traffic in a computer network.
+
+----------------------------------------------------
+2. STEPS PERFORMED
+----------------------------------------------------
+1. Opened the firewall configuration tool:
+   - Windows: Windows Defender Firewall with Advanced Security
+   - Linux: Terminal (UFW - Uncomplicated Firewall)
+
+2. Listed current firewall rules:
+   - Windows: Viewed under "Inbound Rules" and "Outbound Rules"
+   - Linux Command: sudo ufw status verbose
+
+3. Added a rule to block inbound traffic on port 23 (Telnet):
+   - Windows GUI: New Rule → Port → TCP 23 → Block the connection
+   - Linux Command: sudo ufw deny 23/tcp
+
+4. Tested the rule by attempting to connect to port 23 locally or remotely.
+
+5. Added a rule to allow SSH on port 22 (for Linux):
+   - Command: sudo ufw allow 22/tcp
+
+6. Removed the test block rule to restore the original state:
+   - Command: sudo ufw delete deny 23/tcp
+
+7. Documented all commands and GUI steps used.
+
+8. Summarized how the firewall filters traffic.
+
+----------------------------------------------------
+3. COMMANDS USED (LINUX - UFW)
+----------------------------------------------------
+Check firewall status:
+    sudo ufw status verbose
+
+Block Telnet port (23):
+    sudo ufw deny 23/tcp
+
+Allow SSH port (22):
+    sudo ufw allow 22/tcp
+
+Delete Telnet block rule:
+    sudo ufw delete deny 23/tcp
+
+----------------------------------------------------
+4. WINDOWS FIREWALL STEPS (GUI / CMD)
+----------------------------------------------------
+1. Open "Windows Defender Firewall with Advanced Security".
+2. Select "Inbound Rules" → "New Rule".
+3. Choose "Port" → TCP → Specific port: 23 → "Block the connection".
+4. Test the rule using Telnet or a network scanning tool.
+5. Allow SSH (if applicable): "New Rule" → TCP → Port 22 → "Allow the connection".
+6. To remove the rule: Locate it → Right-click → "Delete".
+
+----------------------------------------------------
+5. SUMMARY - HOW FIREWALL FILTERS TRAFFIC
+----------------------------------------------------
+A firewall filters network traffic based on predefined rules that determine
+which connections are allowed or blocked. These rules can target specific
+IP addresses, ports, or network protocols.
+
+In this exercise:
+- Blocking port 23 (Telnet) prevented unauthorized remote access.
+- Allowing port 22 (SSH) enabled secure administrative access.
+- The experiment demonstrated how firewalls enhance security by monitoring
+  and controlling data packets entering or leaving the system.
+
+----------------------------------------------------
+END OF REPORT
+====================================================
